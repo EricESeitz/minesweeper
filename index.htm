@@ -1,24 +1,62 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Minesweeper</title>
-    </head>
-    <!-- source for onclick: https://www.w3schools.com/jsref/event_onclick.asp -->
-    <button onclick="myFunction(1, 2)">Add 1 & 2</button> 
-    <button onclick="myFunction(1, 4)">Add 1 & 4</button> 
-    <button onclick="myFunction(3, 3)">Add 3 & 3</button> 
 
+<head>
+    <title>Minesweeper</title>
+</head>
+<script type="text/javascript">
+    function arrMake()
+    {
+        /*
+        var arr = createArray(3, 3);
+        arr[0][0] = "BOOM!";
+        arr[0][1] = "Nothing";
+        arr[0][2] = "BOOM!";
+        arr[1][0] = "Nothing";
+        arr[1][1] = "BOOM!";
+        arr[1][2] = "Nothing";
+        arr[2][0] = "Nothing";
+        arr[2][1] = "BOOM!";
+        arr[2][2] = "Nothing";
+        */
+    }
 
-    <script>
-        function myFunction(x, y)
-        {
-            alert('Passing in values to main.js addition');
-            alert(TestFunction(x, y));
-        }
-    </script>
+    function myFunction(x, y) 
+    {
+        var arr = createArray(3, 3);
+        arr[0][0] = "BOOM!";
+        arr[0][1] = "Nothing";
+        arr[0][2] = "BOOM!";
+        arr[1][0] = "Nothing";
+        arr[1][1] = "BOOM!";
+        arr[1][2] = "Nothing";
+        arr[2][0] = "Nothing";
+        arr[2][1] = "BOOM!";
+        arr[2][2] = "Nothing";
+        //alert(arr[0][0]);
 
-    <body>
-        <h1>Eric S: Testing main.js JavaScript input</h1>
-        <script src="main.js"></script>
-    </body>
+        //alert('Passing in values to main.js addition');
+        //TestFunction(x, y);
+        var output = arr[x][y];
+        alert(output);
+    }
+</script>
+<!-- source for onclick: https://www.w3schools.com/jsref/event_onclick.asp -->
+<button onclick="myFunction(0, 0)">[ ]</button>
+<button onclick="myFunction(0, 1)">[ ]</button>
+<button onclick="myFunction(0, 2)">[ ]</button>
+<br>
+<button onclick="myFunction(1, 0)">[ ]</button>
+<button onclick="myFunction(1, 1)">[ ]</button>
+<button onclick="myFunction(1, 2)">[ ]</button>
+<br>
+<button onclick="myFunction(2, 0)">[ ]</button>
+<button onclick="myFunction(2, 1)">[ ]</button>
+<button onclick="myFunction(2, 2)">[ ]</button>
+
+<body onload="arrMake();">
+    <h1>Eric S: Testing main.js JavaScript input</h1>
+    <script src="main.js"></script>
+</body>
+
 </html>
