@@ -3,10 +3,18 @@
     <head>
         <title>Minesweeper</title>
     </head>
+    <!-- source for onclick: https://www.w3schools.com/jsref/event_onclick.asp -->
+    <button onclick="myFunction(1, 2)">Add 1 & 2</button> 
+    <button onclick="myFunction(1, 4)">Add 1 & 4</button> 
+    <button onclick="myFunction(3, 3)">Add 3 & 3</button> 
+
 
     <script>
-        //Creates n-dimensional array. Source below
-        //https://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript/966938#966938
+        function myFunction(x, y)
+        {
+            alert('Passing in values to main.js addition');
+            alert(TestFunction(x, y));
+        }
     </script>
 
     <body>
