@@ -1,6 +1,9 @@
 var myHeading = document.querySelector('h1');
 myHeading.textContent = 'Test of main.js implementation of code';
 
+//Testing for global scope of array, successfully called!
+var arr = createArray(3, 3);
+
 //Creates n-dimensional array. Source below
 //https://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript/966938#966938
 function createArray(length) {
@@ -19,3 +22,4 @@ function TestFunction(x, y)
 {
     alert('Coordinates: (' + x + ', ' + y + ')');
 }
+
