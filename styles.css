@@ -1,0 +1,13 @@
+.square {
+  background-color: white;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: black;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.row {
+  height: 30px;
+}
