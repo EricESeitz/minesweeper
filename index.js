@@ -26,12 +26,45 @@ function createArray(length) {
       var args = Array.prototype.slice.call(arguments, 1);
       while(i--) arr[length-1 - i] = createArray.apply(this, args);
   }
-
+  
   return arr;
 }//end of n-dimensional arr
 
-//2D array matching uer-defined grid size
+//Creates Global 2D array matching user-defined grid size
 var arr = createArray(gridSize, gridSize);
+
+//Testing function, fills the array with random numbers
+//to test 'connection' between clickable grid and array
+/*
+arrayFillerRandom();
+function arrayFillerRandom()
+{
+  for (let i = 0; i < gridSize; i++)
+  {
+    for (let k = 0; k < gridSize; k++)
+    {
+    arr[i][k] = Math.floor(Math.random() * 101); //returns random number between 0 and 100;
+    }
+  }
+
+}
+*/
+
+//fills array with "squareProperties" object, will be used to store properties
+//of the grid squares (i.e isClicked - if square has been clicked before. isBomb - if it is a mine space)
+arrayFiller();
+function arrayFiller()
+{
+  var squareProperties = {isClicked:0, isBomb:0, isFlagged:0, numNeighborMines:0, testingClickTimes:0};
+
+  for (let i = 0; i < gridSize; i++)
+  {
+    for (let k = 0; k < gridSize; k++)
+    {
+    arr[i][k] = squareProperties;
+    }
+  }
+}
 
 drawSquares();
 function drawSquares(square) {
@@ -40,20 +73,26 @@ function drawSquares(square) {
     let rowElement = $("<div>");
     rowElement.addClass("row");
     for (let column = 0; column < gridSize; column++) {
-      //Eric: Changed "<div>"" to "<div onclick ...>""
-      let squareElement = $("<div onclick = alert('Clicked!');>");
-      //let squareElement = $("<div onclick = alert('Clicked!');>");
+      let squareElement = $("<div>");
       squareElement.addClass("square");
-      squareElement.attr("x_coordinate", row);
-      squareElement.attr("y_coordinate", column);
+      squareElement.attr("data-x-coordinate", column);
+      squareElement.attr("data-y-coordinate", row);
       rowElement.append(squareElement);
     }
     $("#squareContainer").append(rowElement);
   }
 }
 
-//testing function for 2D arr, should display (x, y) coordinates on grid click
-function TestFunction(x)
+$(".square").on("click", function() {
+  const elementClicked = $(this);
+  const xPos = elementClicked.attr("data-x-coordinate");
+  const yPos = elementClicked.attr("data-y-coordinate");
+  TestFunction(xPos, yPos);
+});
+
+//testing function for 2D arr, should display (x, y) coordinates on grid click, plus number of times a spesific square has been clicked on
+function TestFunction(x, y)
 {
-    alert('Coordinates: (' + x + ', ' + x + ')');
+  arr[x][y].testingClickTimes = arr[x][y].testingClickTimes + 1;
+    alert('Coordinates: (' + x + ', ' + y + ')' + "\nNum Clicked: " + arr[x][y].testingClickTimes);
 }
