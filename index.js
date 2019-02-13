@@ -1,17 +1,14 @@
 let validGridSize = false;
 let gridSize = parseInt(Number(prompt("Input a size for the grid")));
 
-while (validGridSize == false) {  
-
+while (validGridSize == false) {
   if (gridSize < 2 || gridSize % 1 !== 0) {
     alert("Invalid input. Enter an integer between 2 and 100");
     gridSize = parseInt(Number(prompt("Input a size for the grid")));
-  }
-  else if (gridSize > 100 || gridSize % 1 !== 0) {
+  } else if (gridSize > 100 || gridSize % 1 !== 0) {
     alert("Invalid input. Enter an integer between 2 and 100");
     gridSize = parseInt(Number(prompt("Input a size for the grid")));
-  }
-  else {
+  } else {
     validGridSize = true;
   }
 }
@@ -25,10 +22,21 @@ function drawSquares(square) {
     for (let column = 0; column < gridSize; column++) {
       let squareElement = $("<div>");
       squareElement.addClass("square");
-      squareElement.attr("x_coordinate", row);
-      squareElement.attr("y_coordinate", column);
+      squareElement.attr("data-x-coordinate", column);
+      squareElement.attr("data-y-coordinate", row);
       rowElement.append(squareElement);
     }
     $("#squareContainer").append(rowElement);
   }
+}
+
+$(".square").on("click", function() {
+  const elementClicked = $(this);
+  const xPos = elementClicked.attr("data-x-coordinate");
+  const yPos = elementClicked.attr("data-y-coordinate");
+  handleSquareClick(xPos, yPos);
+});
+
+function handleSquareClick(xPos, yPos) {
+  console.log(xPos, yPos);
 }
