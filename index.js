@@ -163,54 +163,84 @@ function onClicked(x, y) {
   //userClick(x, y);
   //arr[x][y].testingClickTimes = arr[x][y].testingClickTimes + 1;  //increments testingClickTimes up by one for each click
   alert('Coordinates: (' + x + ', ' + y + ')' + "\nIs Bomb? (0/No, 1/Yes): " + arr[x][y].isBomb + "\nNum Neighboring Mines: " + arr[x][y].numNeighborMines);
-  recShowNonMineSquare(x, y);
+  recHelperFunction(x, y);
 }
+
+function recHelperFunction(x, y) {
+  if (arr[x][y].isBomb == 0 && isValidCoordinate(x, y) == true && arr[x][y].isClicked == 0) {  //If the square is not a bomb or bad coordinates or been clicked already
+    userClick(x, y);
+    //alert("RecFunc helper load coordinates: (" + x + ", " + y + ")");
+    if (arr[x][y].numNeighborMines < 1) {
+      recShowNonMineSquare(x, y);
+      return;
+    } else {
+      return;
+    }
+  } else {
+    return;
+  }//end of bomb or coordinate statement
+}
+
+function recShowNonMineSquare(x, y) {
+  //alert("recShowNonMineSquare load coordinates: (" + (x) + ", " + (y) + ")");
+
+  //if (arr[x][y].numNeighborMines < 1) //stop recursing when square with mine neighbors is found
+  //{
+  let xInt = parseInt(x);
+  let yInt = parseInt(y);
+
+  //alert("Upper left load coordinates: (" + (xInt + 1) + ", " + (yInt - 1) + ")");
+  if (isValidCoordinate((xInt + 1), (yInt - 1)) == true) {
+    recHelperFunction((xInt + 1), (yInt - 1));   //upper right
+    //return;
+  }
+
+  if (isValidCoordinate((xInt - 1), (yInt + 1)) == true) {
+    recHelperFunction(xInt - 1, yInt + 1);   //lower left
+    //return;
+  }
+
+  if (isValidCoordinate((xInt + 1), (yInt + 1)) == true) {
+    recHelperFunction(xInt + 1, yInt + 1);   //lower right
+    //return;
+  }
+
+  if (isValidCoordinate((xInt - 1), (yInt)) == true) {
+    recHelperFunction(xInt - 1, yInt);  //left
+    //return;
+  }
+
+  if (isValidCoordinate((xInt + 1), (yInt)) == true) {
+    recHelperFunction(xInt + 1, yInt);   //right
+    //return;
+  }
+
+  if (isValidCoordinate((xInt), (yInt - 1)) == true) {
+    recHelperFunction(xInt, yInt - 1);   //up
+    //return;
+  }
+
+  if (isValidCoordinate((xInt), (yInt + 1)) == true) {
+    recHelperFunction(xInt, yInt + 1);   //down
+    //return;
+  }
+
+  if (isValidCoordinate((xInt - 1), (yInt - 1)) == true) {
+    recHelperFunction(xInt - 1, yInt - 1);   //upper left
+    //return;
+  }
+  //}else{
+  // return;
+  // }//end of neighboring mines < 1
+
+}//end of recShowNonMineSquare
 
 function userClick(x, y) {
   arr[x][y].isClicked = 1;
   let elemID = x + " " + y;
   document.getElementById(elemID).className = 'empty-square';
+  return;
 }
-
-function recShowNonMineSquare(x, y) {
-  if (arr[x][y].isBomb == 0) {  //If the square is not a bomb
-    userClick(x, y);
-    if (arr[x][y].numNeighborMines == 0) //stop recursing when square with mine neighbors is found
-    {
-      if (isValidCoordinate(x - 1, y) == true) {
-        recShowNonMineSquare(x - 1, y);  //left
-      }
-
-      if (isValidCoordinate(x + 1, y) == true) {
-        recShowNonMineSquare(x + 1, y);   //right
-      }
-
-      if (isValidCoordinate(x, y - 1) == true) {
-        recShowNonMineSquare(x, y - 1);   //up
-      }
-
-      if (isValidCoordinate(x, y + 1) == true) {
-        recShowNonMineSquare(x, y + 1);   //down
-      }
-
-      if (isValidCoordinate(x - 1, y - 1) == true) {
-        recShowNonMineSquare(x - 1, y - 1);   //upper left
-      }
-
-      if (isValidCoordinate(x + 1, y - 1) == true) {
-        recShowNonMineSquare(x + 1, y - 1);   //upper right
-      }
-
-      if (isValidCoordinate(x - 1, y + 1) == true) {
-        recShowNonMineSquare(x - 1, y + 1);   //lower left
-      }
-
-      if (isValidCoordinate(x + 1, y + 1) == true) {
-        recShowNonMineSquare(x + 1, y + 1);   //lower right
-      }
-    }
-  }
-}//end of recShowNonMineSquare
 
 function isValidCoordinate(x, y) {
   if (x < gridSize && x >= 0 && y < gridSize && y >= 0) {
