@@ -79,14 +79,69 @@ function randomMineAssign()
 {
   let userNumOfMines = 3;  //temporary hard value until we ask user for number of mines
 
-  for (let i = 0; i <= userNumOfMines; i++)
+  for (let i = 1; i <= userNumOfMines; i++)
   {
     do
     {
       xCoord = Math.floor(Math.random() * gridSize); //returns random number between 0 and gridSize-1;
       yCoord = Math.floor(Math.random() * gridSize); //returns random number between 0 and gridSize-1;
     }while(arr[xCoord][yCoord].isBomb != 0);   //Loop through random coordinates until a non-mine space is found (avoid multiple assignments to same square)
-    arr[xCoord][yCoord].isBomb = 1;
+    arr[xCoord][yCoord].isBomb = 1;   //assign isBomb property. 0 - No, 1 - Yes
+  }
+}
+
+//Going square by square, check all neighboring mines one by one. If bomb found, itterate numMinesFound up by one. Set final value to arr[x][y]
+checkNumNeighboringMines();
+function checkNumNeighboringMines()
+{
+  let numMinesFound = 0;
+  for (let x = 0; x < gridSize; x++)
+  {
+    for (let y = 0; y < gridSize; y++)
+    {
+      numMinesFound = 0;
+      if ((x-1) >= 0)
+      {
+        if (arr[x-1][y].isBomb == 1)  //Left
+        numMinesFound++;
+      }
+      if ((x+1) < gridSize)
+      {
+        if (arr[x+1][y].isBomb == 1)  //Right
+        numMinesFound++;
+      }
+      if ((y-1) >= 0)
+      {
+        if (arr[x][y-1].isBomb == 1)  //Up
+        numMinesFound++;
+      }
+      if ((y+1) < gridSize)
+      {
+        if (arr[x][y+1].isBomb == 1)  //Down
+        numMinesFound++;
+      }
+      if ((x-1) >= 0 && (y-1) >= 0)
+      {
+        if (arr[x-1][y-1].isBomb == 1)  //Upper left corner
+        numMinesFound++;
+      }
+      if ((x+1) < gridSize && (y-1) >= 0)
+      {
+        if (arr[x+1][y-1].isBomb == 1)  //Upper right corner
+        numMinesFound++;
+      }
+      if ((x-1) >= 0 && (y+1) < gridSize)
+      {
+        if (arr[x-1][y+1].isBomb == 1)  //lower left corner
+        numMinesFound++;
+      }
+      if ((x+1) < gridSize && (y+1) < gridSize)
+      {
+        if (arr[x+1][y+1].isBomb == 1)  //lower right corner
+        numMinesFound++;
+      }
+      arr[x][y].numNeighborMines = numMinesFound;
+    }
   }
 }
 
@@ -118,5 +173,5 @@ $(".square").on("click", function() {
 function onClicked(x, y)
 {
   arr[x][y].testingClickTimes = arr[x][y].testingClickTimes + 1;  //increments testingClickTimes up by one for each click
-    alert('Coordinates: (' + x + ', ' + y + ')' + "\nIs Bomb?\n(0 - No, 1 - Yes): " + arr[x][y].isBomb);
+    alert('Coordinates: (' + x + ', ' + y + ')' + "\nIs Bomb? (0/No, 1/Yes): " + arr[x][y].isBomb + "\nNum Neighboring Mines: " + arr[x][y].numNeighborMines);
 }
