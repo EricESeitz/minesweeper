@@ -103,3 +103,15 @@ function onClicked(x, y)
   arr[x][y].testingClickTimes = arr[x][y].testingClickTimes + 1;  //increments testingClickTimes up by one for each click
     alert('Coordinates: (' + x + ', ' + y + ')' + "\nNum Clicked: " + arr[x][y].testingClickTimes);
 }
+//checks if win condition has been met
+function winCheck() {
+  for (let i = 0; i < gridSize; i++)
+  {
+    for (let k = 0; k < gridSize; k++)
+    {
+      if ((this.isBomb == 1) && (this.isFlag == 0))
+      {
+        
+
+
+}
