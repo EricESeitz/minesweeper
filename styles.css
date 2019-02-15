@@ -8,6 +8,16 @@
   box-sizing: border-box;
 }
 
+.empty-square {
+  background-color: gray;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: black;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
 .row {
   height: 30px;
 }

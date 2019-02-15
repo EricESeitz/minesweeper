@@ -167,6 +167,7 @@ function drawSquares(square) {
 
 $(".square").on("click", function() {
   const elementClicked = $(this);
+  $(this).addClass("empty-square");
   const xPos = elementClicked.attr("data-x-coordinate");
   const yPos = elementClicked.attr("data-y-coordinate");
   onClicked(xPos, yPos);
