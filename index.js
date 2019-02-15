@@ -73,6 +73,23 @@ function arrayFiller()
   }
 }
 
+//Assigns 'isBomb' = 1 to random coordinates. 2/15: temp hard coded value until user asked for number of mines at start
+randomMineAssign();
+function randomMineAssign()
+{
+  let userNumOfMines = 3;  //temporary hard value until we ask user for number of mines
+
+  for (let i = 0; i <= userNumOfMines; i++)
+  {
+    do
+    {
+      xCoord = Math.floor(Math.random() * gridSize); //returns random number between 0 and gridSize-1;
+      yCoord = Math.floor(Math.random() * gridSize); //returns random number between 0 and gridSize-1;
+    }while(arr[xCoord][yCoord].isBomb != 0);   //Loop through random coordinates until a non-mine space is found (avoid multiple assignments to same square)
+    arr[xCoord][yCoord].isBomb = 1;
+  }
+}
+
 drawSquares();
 function drawSquares(square) {
   $("#squareContainer").empty();
@@ -101,5 +118,5 @@ $(".square").on("click", function() {
 function onClicked(x, y)
 {
   arr[x][y].testingClickTimes = arr[x][y].testingClickTimes + 1;  //increments testingClickTimes up by one for each click
-    alert('Coordinates: (' + x + ', ' + y + ')' + "\nNum Clicked: " + arr[x][y].testingClickTimes);
+    alert('Coordinates: (' + x + ', ' + y + ')' + "\nIs Bomb?\n(0 - No, 1 - Yes): " + arr[x][y].isBomb);
 }
