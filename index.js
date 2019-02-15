@@ -178,3 +178,44 @@ function onClicked(x, y)
   arr[x][y].testingClickTimes = arr[x][y].testingClickTimes + 1;  //increments testingClickTimes up by one for each click
     alert('Coordinates: (' + x + ', ' + y + ')' + "\nIs Bomb? (0/No, 1/Yes): " + arr[x][y].isBomb + "\nNum Neighboring Mines: " + arr[x][y].numNeighborMines);
 }
+
+function recShowNonMineSquare(x, y)
+{
+  //[change square to clicked, display numNeighborMines value]
+  if (arr[x][y].numNeighborMines < 1) //stop recursing when square with mine neighbors is found
+  {
+    if ((x-1) >= 0)
+    {
+      recShowNonMineSquare(x-1, y);  //left
+    }
+    if ((x+1) < gridSize) 
+    {
+      recShowNonMineSquare(x+1, y);   //right
+    }
+    if ((y-1) >= 0)
+    {
+      recShowNonMineSquare(x, y-1);   //up
+    }
+    if ((y+1) < gridSize)
+    {
+      recShowNonMineSquare(x, y+1);   //down
+    }
+    if ((x-1) >= 0 && (y-1) >= 0)
+    {
+      recShowNonMineSquare(x-1, y-1);   //upper left
+    }
+    if ((x+1) < gridSize && (y-1) >= 0)
+    {
+      recShowNonMineSquare(x+1, y-1);   //upper right
+    }
+    if ((x-1) >= 0 && (y+1) < gridSize)
+    {
+      recShowNonMineSquare(x-1, y+1);   //lower left
+    }
+    if ((x+1) < gridSize && (y+1) < gridSize)
+    {
+      recShowNonMineSquare(x+1, y+1);   //lower right
+    }
+  }
+  return;
+}
