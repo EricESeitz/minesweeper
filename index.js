@@ -90,16 +90,18 @@ function randomMineAssign()
   }
 }
 
-//Going square by square, check all neighboring mines one by one. If bomb found, itterate numMinesFound up by one. Set final value to arr[x][y]
+//Going square by square, check all neighboring mines one by one. 
+//If bomb found, itterate numMinesFound up by one. Set final value to arr[x][y]
 checkNumNeighboringMines();
 function checkNumNeighboringMines()
 {
   let numMinesFound = 0;
   for (let x = 0; x < gridSize; x++)
   {
-    for (let y = 0; y < gridSize; y++)
+    for (let y = 0; y < gridSize; y++)  //loop through every square in grid, starting at (0,0) to gridSize-1
     {
       numMinesFound = 0;
+
       if ((x-1) >= 0)
       {
         if (arr[x-1][y].isBomb == 1)  //Left
@@ -140,7 +142,8 @@ function checkNumNeighboringMines()
         if (arr[x+1][y+1].isBomb == 1)  //lower right corner
         numMinesFound++;
       }
-      arr[x][y].numNeighborMines = numMinesFound;
+      
+      arr[x][y].numNeighborMines = numMinesFound; //assigns the final number of mines found to orig. (x,y) coordinates
     }
   }
 }
