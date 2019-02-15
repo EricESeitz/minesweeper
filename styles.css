@@ -1,5 +1,6 @@
 .square {
   background-color: white;
+  color: white;
   height: 30px;
   width: 30px;
   border-style: solid;
@@ -7,6 +8,18 @@
   display: inline-block;
   box-sizing: border-box;
 }
+
+.empty-square {
+  color: black;
+  background-color: gray;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: black;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
 
 .row {
   height: 30px;
