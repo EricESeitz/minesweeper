@@ -111,7 +111,15 @@ function winCheck() {
     {
       if ((this.isBomb == 1) && (this.isFlag == 0))
       {
-        
-
-
+        return;
+      }
+      if ((this.isBomb == 0) && (this.isFlag == 1))
+      {
+        return;
+      }
+    }
+  }
+  alert('Congratulations, You Successfully Navigated The Minefield!');
+  //Need to add recursive function call to allow user to play another game
+  return;
 }
