@@ -16,6 +16,25 @@ while (validGridSize == false) {
   }
 }
 
+//Copied from Lauren's code above, asks user for number of mines
+let validMineNumber = false;
+let mineNumber = parseInt(Number(prompt("Input the number of mines")));
+
+while (validMineNumber == false) {
+
+  if (mineNumber < 1 || mineNumber % 1 !== 0) {
+    alert("Invalid input. Enter an integer between 1 and " + ((gridSize * gridSize) - 1) + ".");
+    mineNumber = parseInt(Number(prompt("Input the number of mines")));
+  }
+  else if (mineNumber > ((gridSize * gridSize) - 1) || mineNumber % 1 !== 0) {
+    alert("Invalid input. Enter an integer between 1 and " + ((gridSize * gridSize) - 1) + ".");
+    mineNumber = parseInt(Number(prompt("Input the number of mines")));
+  }
+  else {
+    validMineNumber = true;
+  }
+}
+
 //Creates n-dimensional array. Source below
 //https://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript/966938#966938
 function createArray(length) {
@@ -32,23 +51,6 @@ function createArray(length) {
 
 //Creates Global 2D array matching user-defined grid size
 let arr = createArray(gridSize, gridSize);
-
-//Testing function, fills the array with random numbers
-//to test 'connection' between clickable grid and array
-/*
-arrayFillerRandom();
-function arrayFillerRandom()
-{
-  for (let i = 0; i < gridSize; i++)
-  {
-    for (let k = 0; k < gridSize; k++)
-    {
-    arr[i][k] = Math.floor(Math.random() * 101); //returns random number between 0 and 100;
-    }
-  }
-
-}
-*/
 
 //For storing values in the 2D array, used to create unique instance 'objects'. Can be called on by arr[x][y].<property>
 function squareProperties(isClicked, isBomb, isFlagged, numNeighborMines, testingClickTimes) {
@@ -72,7 +74,7 @@ function arrayFiller() {
 //Assigns 'isBomb' = 1 to random coordinates. 2/15: temp hard coded value until user asked for number of mines at start
 randomMineAssign();
 function randomMineAssign() {
-  let userNumOfMines = 3;  //temporary hard value until we ask user for number of mines
+  let userNumOfMines = mineNumber;  //number of mines as defined by user
 
   for (let i = 1; i <= userNumOfMines; i++) {
     do {
@@ -93,35 +95,35 @@ function checkNumNeighboringMines() {
     {
       numMinesFound = 0;
 
-      if ((x - 1) >= 0) {
+      if (isValidCoordinate((x - 1), (y)) == true) {
         if (arr[x - 1][y].isBomb == 1)  //Left
           numMinesFound++;
       }
-      if ((x + 1) < gridSize) {
+      if (isValidCoordinate((x + 1), (y)) == true) {
         if (arr[x + 1][y].isBomb == 1)  //Right
           numMinesFound++;
       }
-      if ((y - 1) >= 0) {
+      if (isValidCoordinate((x), (y - 1)) == true) {
         if (arr[x][y - 1].isBomb == 1)  //Up
           numMinesFound++;
       }
-      if ((y + 1) < gridSize) {
+      if (isValidCoordinate((x), (y + 1)) == true) {
         if (arr[x][y + 1].isBomb == 1)  //Down
           numMinesFound++;
       }
-      if ((x - 1) >= 0 && (y - 1) >= 0) {
+      if (isValidCoordinate((x - 1), (y - 1)) == true) {
         if (arr[x - 1][y - 1].isBomb == 1)  //Upper left corner
           numMinesFound++;
       }
-      if ((x + 1) < gridSize && (y - 1) >= 0) {
+      if (isValidCoordinate((x + 1), (y - 1)) == true) {
         if (arr[x + 1][y - 1].isBomb == 1)  //Upper right corner
           numMinesFound++;
       }
-      if ((x - 1) >= 0 && (y + 1) < gridSize) {
+      if (isValidCoordinate((x - 1), (y + 1)) == true) {
         if (arr[x - 1][y + 1].isBomb == 1)  //lower left corner
           numMinesFound++;
       }
-      if ((x + 1) < gridSize && (y + 1) < gridSize) {
+      if (isValidCoordinate((x + 1), (y + 1)) == true) {
         if (arr[x + 1][y + 1].isBomb == 1)  //lower right corner
           numMinesFound++;
       }
@@ -160,17 +162,15 @@ $(".square").on("click", function () {
 
 //on user clicking on a grid square. **Just For testing: should display (x, y) coordinates on grid click, plus number of times a spesific square has been clicked on
 function onClicked(x, y) {
-  //userClick(x, y);
-  //arr[x][y].testingClickTimes = arr[x][y].testingClickTimes + 1;  //increments testingClickTimes up by one for each click
-  alert('Coordinates: (' + x + ', ' + y + ')' + "\nIs Bomb? (0/No, 1/Yes): " + arr[x][y].isBomb + "\nNum Neighboring Mines: " + arr[x][y].numNeighborMines);
+  //alert('Coordinates: (' + x + ', ' + y + ')' + "\nIs Bomb? (0/No, 1/Yes): " + arr[x][y].isBomb + "\nNum Neighboring Mines: " + arr[x][y].numNeighborMines);
   recHelperFunction(x, y);
 }
 
+//Helper function for the recursive, checks if a given square by coordinate (x, y) is 'valid' and can be used
 function recHelperFunction(x, y) {
   if (arr[x][y].isBomb == 0 && isValidCoordinate(x, y) == true && arr[x][y].isClicked == 0) {  //If the square is not a bomb or bad coordinates or been clicked already
     userClick(x, y);
-    //alert("RecFunc helper load coordinates: (" + x + ", " + y + ")");
-    if (arr[x][y].numNeighborMines < 1) {
+    if (arr[x][y].numNeighborMines < 1) {   //If the number of neighboring mines is 0, recurse. Otherwise stop
       recShowNonMineSquare(x, y);
       return;
     } else {
@@ -181,60 +181,46 @@ function recHelperFunction(x, y) {
   }//end of bomb or coordinate statement
 }
 
+//Recursive function, moves in all directions neighboring a square at coordinates (x, y)
 function recShowNonMineSquare(x, y) {
-  //alert("recShowNonMineSquare load coordinates: (" + (x) + ", " + (y) + ")");
 
-  //if (arr[x][y].numNeighborMines < 1) //stop recursing when square with mine neighbors is found
-  //{
-  let xInt = parseInt(x);
+  let xInt = parseInt(x); //parse to integer (required)
   let yInt = parseInt(y);
 
-  //alert("Upper left load coordinates: (" + (xInt + 1) + ", " + (yInt - 1) + ")");
   if (isValidCoordinate((xInt + 1), (yInt - 1)) == true) {
     recHelperFunction((xInt + 1), (yInt - 1));   //upper right
-    //return;
   }
 
   if (isValidCoordinate((xInt - 1), (yInt + 1)) == true) {
     recHelperFunction(xInt - 1, yInt + 1);   //lower left
-    //return;
   }
 
   if (isValidCoordinate((xInt + 1), (yInt + 1)) == true) {
     recHelperFunction(xInt + 1, yInt + 1);   //lower right
-    //return;
   }
 
   if (isValidCoordinate((xInt - 1), (yInt)) == true) {
     recHelperFunction(xInt - 1, yInt);  //left
-    //return;
   }
 
   if (isValidCoordinate((xInt + 1), (yInt)) == true) {
     recHelperFunction(xInt + 1, yInt);   //right
-    //return;
   }
 
   if (isValidCoordinate((xInt), (yInt - 1)) == true) {
     recHelperFunction(xInt, yInt - 1);   //up
-    //return;
   }
 
   if (isValidCoordinate((xInt), (yInt + 1)) == true) {
     recHelperFunction(xInt, yInt + 1);   //down
-    //return;
   }
 
   if (isValidCoordinate((xInt - 1), (yInt - 1)) == true) {
     recHelperFunction(xInt - 1, yInt - 1);   //upper left
-    //return;
   }
-  //}else{
-  // return;
-  // }//end of neighboring mines < 1
-
 }//end of recShowNonMineSquare
 
+//Changes a square's 'state' to 'clicked', change color, shows number
 function userClick(x, y) {
   arr[x][y].isClicked = 1;
   let elemID = x + " " + y;
@@ -242,6 +228,7 @@ function userClick(x, y) {
   return;
 }
 
+//valides if a given coordinate is valid on the 2D array
 function isValidCoordinate(x, y) {
   if (x < gridSize && x >= 0 && y < gridSize && y >= 0) {
     return true;
