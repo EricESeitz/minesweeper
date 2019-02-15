@@ -141,7 +141,6 @@ function drawSquares(square) {
       let id = column + " " + row;
       let squareElement = $('<div id = "' + id + '">"');
       squareElement.addClass("square");
-      squareElement.append(arr[column][row].numNeighborMines);
       squareElement.attr("data-x-coordinate", column);
       squareElement.attr("data-y-coordinate", row);
       rowElement.append(squareElement);
@@ -162,14 +161,16 @@ $(".square").on("click", function () {
 function onClicked(x, y) {
   //userClick(x, y);
   //arr[x][y].testingClickTimes = arr[x][y].testingClickTimes + 1;  //increments testingClickTimes up by one for each click
-  alert('Coordinates: (' + x + ', ' + y + ')' + "\nIs Bomb? (0/No, 1/Yes): " + arr[x][y].isBomb + "\nNum Neighboring Mines: " + arr[x][y].numNeighborMines);
+  //alert('Coordinates: (' + x + ', ' + y + ')' + "\nIs Bomb? (0/No, 1/Yes): " + arr[x][y].isBomb + "\nNum Neighboring Mines: " + arr[x][y].numNeighborMines);
   recShowNonMineSquare(x, y);
 }
 
 function userClick(x, y) {
   arr[x][y].isClicked = 1;
   let elemID = x + " " + y;
-  document.getElementById(elemID).className = 'empty-square';
+    let currentSquare= document.getElementById(elemID);
+  currentSquare.className = 'empty-square';
+ currentSquare.innerHTML = arr[x][y].numNeighborMines;
 }
 
 function recShowNonMineSquare(x, y) {
