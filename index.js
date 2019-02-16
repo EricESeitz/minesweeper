@@ -143,7 +143,7 @@ function drawSquares(square) {
       let id = column + " " + row;
       let squareElement = $('<div id = "' + id + '">"');
       squareElement.addClass("square");
-      squareElement.append(arr[column][row].numNeighborMines);
+      //squareElement.append(arr[column][row].numNeighborMines);
       squareElement.attr("data-x-coordinate", column);
       squareElement.attr("data-y-coordinate", row);
       rowElement.append(squareElement);
@@ -225,6 +225,7 @@ function userClick(x, y) {
   arr[x][y].isClicked = 1;
   let elemID = x + " " + y;
   document.getElementById(elemID).className = 'empty-square';
+  document.getElementById(elemID).innerHTML = arr[x][y].numNeighborMines;
   return;
 }
 
