@@ -1,7 +1,7 @@
 let validGridSize = false;
 let gridSize = parseInt(Number(prompt("Input a size for the grid")));
 
-while (validGridSize == false) {
+while (validGridSize == false) {  
 
   if (gridSize < 2 || gridSize % 1 !== 0) {
     alert("Invalid input. Enter an integer between 2 and 100");
@@ -53,7 +53,8 @@ function createArray(length) {
 let arr = createArray(gridSize, gridSize);
 
 //For storing values in the 2D array, used to create unique instance 'objects'. Can be called on by arr[x][y].<property>
-function squareProperties(isClicked, isBomb, isFlagged, numNeighborMines, testingClickTimes) {
+function squareProperties(isClicked, isBomb, isFlagged, numNeighborMines, testingClickTimes)
+{
   this.isClicked = isClicked;
   this.isBomb = isBomb;
   this.isFlagged = isFlagged;
@@ -129,6 +130,7 @@ function checkNumNeighboringMines() {
       }
 
       arr[x][y].numNeighborMines = numMinesFound; //assigns the final number of mines found to orig. (x,y) coordinates
+
     }
   }
 }
