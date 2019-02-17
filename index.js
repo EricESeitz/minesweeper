@@ -182,6 +182,8 @@ $(".square").on("click", function() {
 //on user clicking on a grid square. **Just For testing: should display (x, y) coordinates on grid click, plus number of times a spesific square has been clicked on
 function onClicked(x, y) {
   recHelperFunction(x, y);
+  //If the total number of squares minus the number of clicked squares equals the number of bombs, only bombs must be left and should auto-win
+  //Also check for if coordinate (x,y) is a bomb, caused issues of both fail and win messages popping up
   if ((gridSize * gridSize) - numOfClickedOnSquares == userNumOfMines && arr[x][y].isBomb == 0) 
   {
     allNonMinesFound();
