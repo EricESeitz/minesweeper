@@ -49,3 +49,8 @@
 .row {
   height: 30px;
 }
+
+
+.invalid{
+    border: solid red 1px;
+}

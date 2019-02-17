@@ -9,16 +9,25 @@ let numSquaresFlaggedByUser = 0;
 let numSquaresCorrectlyFlaggedByUser = 0;
 //Track the total number of clicked-on squares for possible win state (all non-mine squares click, non flagged)
 let numOfClickedOnSquares = 0;
+let invalidGrid = true;
+let invalidMines = true;
 
 
 function startGame(){
   gridSize = Number(document.getElementById("boardLength").value); // gets grid Length from form input
   userNumOfMines= Number(document.getElementById("mineAmount").value); // gets amount of mines from form input
-    if(isNaN(gridSize) || gridSize < 2 || gridSize > 99){
-        console.log("Invalid Grid Size");
-    }else if(isNaN(userNumOfMines) || userNumOfMines < 2 || userNumOfMines > 99){
-        console.log("Invalid Mine Size");
-    }else{
+    
+    document.getElementById("boardLength").className = '';
+    document.getElementById("mineAmount").className = '';
+    let invalidGrid = isNaN(gridSize) || gridSize < 2 || gridSize > 99;
+    let invalidMines = isNaN(userNumOfMines) || userNumOfMines < 2 || userNumOfMines > 99;
+    if(invalidGrid){
+        document.getElementById("boardLength").classList.add("invalid");
+    }
+    if(invalidMines){
+        document.getElementById("mineAmount").classList.add("invalid");
+    }
+    if(!invalidGrid && !invalidMines){
     arr = createArray(gridSize, gridSize);
     arrayFiller();
     randomMineAssign();
