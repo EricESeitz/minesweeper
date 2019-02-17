@@ -43,6 +43,8 @@ while (validMineNumber == false) {
 let userNumOfMines = mineNumber; //number of mines as defined by user
 let numSquaresFlaggedByUser = 0;
 let numSquaresCorrectlyFlaggedByUser = 0;
+//Track the total number of clicked-on squares for possible win state (all non-mine squares click, non flagged)
+let numOfClickedOnSquares = 0;
 
 //Creates n-dimensional array. Source below
 //https://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript/966938#966938
@@ -180,6 +182,12 @@ $(".square").on("click", function() {
 //on user clicking on a grid square. **Just For testing: should display (x, y) coordinates on grid click, plus number of times a spesific square has been clicked on
 function onClicked(x, y) {
   recHelperFunction(x, y);
+  if ((gridSize * gridSize) - numOfClickedOnSquares == userNumOfMines) 
+  {
+    allNonMinesFound();
+    location.reload();
+    return;
+  }
 }
 
 //Helper function for the recursive, checks if a given square by coordinate (x, y) is 'valid' and can be used
@@ -202,6 +210,7 @@ function recHelperFunction(x, y) {
     failShowMines();
     alert("game over");
     location.reload();
+    return;
   } else {
     return;
   } //end of bomb or coordinate statement
@@ -248,6 +257,7 @@ function recShowNonMineSquare(x, y) {
 //Changes a square's 'state' to 'clicked', change color, shows number
 function userClick(x, y) {
   arr[x][y].isClicked = 1;
+  numOfClickedOnSquares = numOfClickedOnSquares + 1;
   let elemID = x + " " + y;
   document.getElementById(elemID).className = "empty-square";
   document.getElementById(elemID).innerHTML = arr[x][y].numNeighborMines;
@@ -261,11 +271,16 @@ function failShowMines()
   {
     for (let y = 0; y < gridSize; y++)
     {
-      if(arr[x][y].isBomb == 1)
+      if(arr[x][y].isBomb == 1)   //If it's a bomb, show it as 'exploded'
       {
         let elemID = x + " " + y;
         document.getElementById(elemID).className = "exploded-square";
-      }    
+      }
+
+      if(arr[x][y].isBomb == 0 && arr[x][y].isClicked == 0)   //If not a bomb, show it as 'clicked'
+      {
+        userClick(x, y);
+      }       
     }
   }
 }
@@ -316,4 +331,21 @@ function isValidCoordinate(x, y) {
     return true;
   }
   return false;
+}
+
+//Function to show mines in green (flagged) if all non-mine squares are clicked
+function allNonMinesFound()
+{
+  for (let x = 0; x < gridSize; x++)
+  {
+    for (let y = 0; y < gridSize; y++)
+    {
+      if(arr[x][y].isBomb == 1)   //if bomb, show it as 'flagged'
+      {
+        let elemID = x + " " + y;
+        document.getElementById(elemID).className = "flagged-square";
+      }    
+    }
+  }
+  alert("You win!");
 }
