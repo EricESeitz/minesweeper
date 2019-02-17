@@ -179,7 +179,6 @@ $(".square").on("click", function() {
 
 //on user clicking on a grid square. **Just For testing: should display (x, y) coordinates on grid click, plus number of times a spesific square has been clicked on
 function onClicked(x, y) {
-  //alert('Coordinates: (' + x + ', ' + y + ')' + "\nIs Bomb? (0/No, 1/Yes): " + arr[x][y].isBomb + "\nNum Neighboring Mines: " + arr[x][y].numNeighborMines);
   recHelperFunction(x, y);
 }
 
@@ -200,6 +199,7 @@ function recHelperFunction(x, y) {
       return;
     }
   } else if (arr[x][y].isBomb == 1 && arr[x][y].isFlagged == 0) {
+    failShowMines();
     alert("game over");
     location.reload();
   } else {
@@ -252,6 +252,22 @@ function userClick(x, y) {
   document.getElementById(elemID).className = "empty-square";
   document.getElementById(elemID).innerHTML = arr[x][y].numNeighborMines;
   return;
+}
+
+//fail-state, displays all mines in red
+function failShowMines()
+{
+  for (let x = 0; x < gridSize; x++)
+  {
+    for (let y = 0; y < gridSize; y++)
+    {
+      if(arr[x][y].isBomb == 1)
+      {
+        let elemID = x + " " + y;
+        document.getElementById(elemID).className = "exploded-square";
+      }    
+    }
+  }
 }
 
 //Changes a square's 'state' to 'right-clicked', change color
