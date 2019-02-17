@@ -1,4 +1,5 @@
 let validGridSize = false;
+var gameEnded = 0;  //Has the game ended? Prevents user input post-end. 0-no, 1-yes
 let gridSize = Number(prompt("Input a length for the square grid"));
 
 while (validGridSize == false) {
@@ -181,11 +182,15 @@ $(".square").on("click", function () {
 
 //on user clicking on a grid square. **Just For testing: should display (x, y) coordinates on grid click, plus number of times a spesific square has been clicked on
 function onClicked(x, y) {
-  recHelperFunction(x, y);
-  //If the total number of squares minus the number of clicked squares equals the number of bombs, only bombs must be left and should auto-win
-  //Also check for if coordinate (x,y) is a bomb, caused issues of both fail and win messages popping up
-  if ((gridSize * gridSize) - numOfClickedOnSquares == userNumOfMines && arr[x][y].isBomb == 0) {
-    allNonMinesFound();
+  if (gameEnded == 0) {
+    recHelperFunction(x, y);
+    //If the total number of squares minus the number of clicked squares equals the number of bombs, only bombs must be left and should auto-win
+    //Also check for if coordinate (x,y) is a bomb, caused issues of both fail and win messages popping up
+    if ((gridSize * gridSize) - numOfClickedOnSquares == userNumOfMines && arr[x][y].isBomb == 0) {
+      allNonMinesFound();
+      return;
+    }
+  }else{
     return;
   }
 }
@@ -208,8 +213,7 @@ function recHelperFunction(x, y) {
     }
   } else if (arr[x][y].isBomb == 1 && arr[x][y].isFlagged == 0) {
     failShowMines();
-    for (let x = 0; x < 10; x++)
-    {
+    for (let x = 0; x < 10; x++) {
       x++;
     }
     endScreen("lose");   //end screen
@@ -292,7 +296,7 @@ $(".square").mousedown(function (e) {
   const xPos = elementClicked.attr("data-x-coordinate");
   const yPos = elementClicked.attr("data-y-coordinate");
 
-  if (e.which == 3) {
+  if (e.which == 3 && gameEnded == 0) {
     // if right-click
     if (arr[xPos][yPos].isFlagged == 1) {
       arr[xPos][yPos].isFlagged = 0;
@@ -347,16 +351,14 @@ function allNonMinesFound() {
   endScreen("win");   //end screen
 }
 
-function endScreen(condition)
-{
-  if (condition == "win")
-  {
-  var myHeading = document.querySelector('h2');
-  myHeading.textContent = 'You Won!';
-  }else if (condition == "lose")
-  {
+function endScreen(condition) {
+  if (condition == "win") {
+    var myHeading = document.querySelector('h2');
+    myHeading.textContent = 'You Won!';
+    gameEnded = 1;
+  } else if (condition == "lose") {
     var myHeading = document.querySelector('h2');
     myHeading.textContent = 'Game Over. Try again?';
+    gameEnded = 1;
   }
-  //location.reload();
 }
