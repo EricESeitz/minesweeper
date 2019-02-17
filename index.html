@@ -10,8 +10,10 @@
     <button id="resetButton" onclick="location.reload();" type="button">Reset</button> 
     <div id="setup">
         <form>
-            Board Length: <input id="boardLength" type="text" name="boardSize" value="10"><br>
-            Mine Amount: <input id="mineAmount" type="text" name="mineAmount" value="10"><br>
+            Board Length (2 - 99):<br>
+            <input id="boardLength" type="text" name="boardSize" value="10"><br>
+            Mine Amount (minimum of 1, at most 1 less than total squares):<br>
+            <input id="mineAmount" type="text" name="mineAmount" value="10"><br>
             <button type="button" onclick="startGame()">Create Board</button>
         </form>  
     </div>

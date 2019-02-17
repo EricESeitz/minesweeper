@@ -54,3 +54,20 @@
 .invalid{
     border: solid red 1px;
 }
+
+
+/* Setup Process */
+#setup{
+    text-align: center;
+}
+
+#setup input{
+    text-align: center;
+    width: 50px;
+    margin: 10px;
+    padding: 10px;
+}
+
+#setup button{
+    padding: 10px;
+}
