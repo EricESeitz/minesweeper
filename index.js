@@ -1,51 +1,81 @@
-let validGridSize = false;
 var gameEnded = 0;  //Has the game ended? Prevents user input post-end. 0-no, 1-yes
-let gridSize = Number(prompt("Input a length for the square grid"));
 
-while (validGridSize == false) {
-  if (gridSize < 2 || Number.isInteger(gridSize) == false) {
-    alert("Invalid input. Enter an integer between 2 and 100");
-    gridSize = Number(prompt("Input a length for the square grid"));
-  } else if (gridSize > 100 || Number.isInteger(gridSize) == false) {
-    alert("Invalid input. Enter an integer between 2 and 100");
-    gridSize = Number(prompt("Input a length for the square grid"));
-  } else {
-    validGridSize = true;
-  }
-}
-
-//Copied from Lauren's code above, asks user for number of mines
-let validMineNumber = false;
-let mineNumber = Number(prompt("Input the number of mines"));
-
-while (validMineNumber == false) {
-  if (mineNumber < 1 || Number.isInteger(mineNumber) == false) {
-    alert(
-      "Invalid input. Enter an integer between 1 and " +
-      (gridSize * gridSize - 1) +
-      "."
-    );
-    mineNumber = Number(prompt("Input the number of mines"));
-  } else if (
-    mineNumber > gridSize * gridSize - 1 ||
-    Number.isInteger(mineNumber) == false
-  ) {
-    alert(
-      "Invalid input. Enter an integer between 1 and " +
-      (gridSize * gridSize - 1) +
-      "."
-    );
-    mineNumber = Number(prompt("Input the number of mines"));
-  } else {
-    validMineNumber = true;
-  }
-}
-
-let userNumOfMines = mineNumber; //number of mines as defined by user
+//Creates Global 2D array matching user-defined grid size
+let arr;
+let gridSize = 0;
+let boardLength = 0;
+let userNumOfMines = 0; //number of mines as defined by user
 let numSquaresFlaggedByUser = 0;
 let numSquaresCorrectlyFlaggedByUser = 0;
 //Track the total number of clicked-on squares for possible win state (all non-mine squares click, non flagged)
 let numOfClickedOnSquares = 0;
+
+
+function startGame(){
+  gridSize = Number(document.getElementById("boardLength").value); // gets grid Length from form input
+  userNumOfMines= Number(document.getElementById("mineAmount").value); // gets amount of mines from form input
+    if(isNaN(gridSize) || gridSize < 2 || gridSize > 99){
+        console.log("Invalid Grid Size");
+    }else if(isNaN(userNumOfMines) || userNumOfMines < 2 || userNumOfMines > 99){
+        console.log("Invalid Mine Size");
+    }else{
+    arr = createArray(gridSize, gridSize);
+    arrayFiller();
+    randomMineAssign();
+    checkNumNeighboringMines();
+    drawSquares();
+            
+    $(".square").on("click", function () {
+    //$(this).addClass("empty-square");
+    const elementClicked = $(this);
+    const xPos = elementClicked.attr("data-x-coordinate");
+    const yPos = elementClicked.attr("data-y-coordinate");
+    onClicked(xPos, yPos);
+    });
+    
+    //Changes a square's 'state' to 'right-clicked', change color
+    $(".square").mousedown(function (e) {
+  const elementClicked = $(this);
+  const xPos = elementClicked.attr("data-x-coordinate");
+  const yPos = elementClicked.attr("data-y-coordinate");
+
+  if (e.which == 3 && gameEnded == 0) {
+    // if right-click
+    if (arr[xPos][yPos].isFlagged == 1) {
+      arr[xPos][yPos].isFlagged = 0;
+      let elemID = xPos + " " + yPos;
+      document.getElementById(elemID).className = "square";
+      numSquaresFlaggedByUser--;
+      if (arr[xPos][yPos].isBomb == 1) {
+        numSquaresCorrectlyFlaggedByUser--;
+      }
+    } else if (
+      arr[xPos][yPos].isFlagged == 0 &&
+      arr[xPos][yPos].isClicked == 0
+    ) {
+      arr[xPos][yPos].isFlagged = 1;
+      let elemID = xPos + " " + yPos;
+      document.getElementById(elemID).className = "flagged-square";
+
+      numSquaresFlaggedByUser++;
+      if (arr[xPos][yPos].isBomb == 1) {
+        numSquaresCorrectlyFlaggedByUser++;
+      }
+      if (
+        numSquaresCorrectlyFlaggedByUser == userNumOfMines &&
+        numSquaresFlaggedByUser == userNumOfMines
+      ) {
+        endScreen("win");   //end screen
+      }
+    }
+    return;
+  }
+});
+    }
+}
+
+
+
 
 //Creates n-dimensional array. Source below
 //https://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript/966938#966938
@@ -61,8 +91,7 @@ function createArray(length) {
   return arr;
 } //end of n-dimensional arr
 
-//Creates Global 2D array matching user-defined grid size
-let arr = createArray(gridSize, gridSize);
+
 
 //For storing values in the 2D array, used to create unique instance 'objects'. Can be called on by arr[x][y].<property>
 function squareProperties(isClicked, isBomb, isFlagged, numNeighborMines) {
@@ -73,7 +102,7 @@ function squareProperties(isClicked, isBomb, isFlagged, numNeighborMines) {
 }
 //fills array with "squareProperties" object, will be used to store properties
 //of the grid squares (i.e isClicked - if square has been clicked before. isBomb - if it is a mine space)
-arrayFiller();
+
 function arrayFiller() {
   for (let i = 0; i < gridSize; i++) {
     for (let k = 0; k < gridSize; k++) {
@@ -83,7 +112,7 @@ function arrayFiller() {
 }
 
 //Assigns 'isBomb' = 1 to random coordinates. 2/15: temp hard coded value until user asked for number of mines at start
-randomMineAssign();
+
 function randomMineAssign() {
   for (let i = 1; i <= userNumOfMines; i++) {
     do {
@@ -96,7 +125,7 @@ function randomMineAssign() {
 
 //Going square by square, check all neighboring mines one by one.
 //If bomb found, itterate numMinesFound up by one. Set final value to arr[x][y]
-checkNumNeighboringMines();
+
 function checkNumNeighboringMines() {
   let numMinesFound = 0;
   for (let x = 0; x < gridSize; x++) {
@@ -153,7 +182,7 @@ function checkNumNeighboringMines() {
   }
 }
 
-drawSquares();
+
 function drawSquares(square) {
   $("#squareContainer").empty();
   for (let row = 0; row < gridSize; row++) {
@@ -171,14 +200,6 @@ function drawSquares(square) {
     $("#squareContainer").append(rowElement);
   }
 }
-
-$(".square").on("click", function () {
-  const elementClicked = $(this);
-  //$(this).addClass("empty-square");
-  const xPos = elementClicked.attr("data-x-coordinate");
-  const yPos = elementClicked.attr("data-y-coordinate");
-  onClicked(xPos, yPos);
-});
 
 //on user clicking on a grid square. **Just For testing: should display (x, y) coordinates on grid click, plus number of times a spesific square has been clicked on
 function onClicked(x, y) {
@@ -290,45 +311,6 @@ function failShowMines() {
   }
 }
 
-//Changes a square's 'state' to 'right-clicked', change color
-$(".square").mousedown(function (e) {
-  const elementClicked = $(this);
-  const xPos = elementClicked.attr("data-x-coordinate");
-  const yPos = elementClicked.attr("data-y-coordinate");
-
-  if (e.which == 3 && gameEnded == 0) {
-    // if right-click
-    if (arr[xPos][yPos].isFlagged == 1) {
-      arr[xPos][yPos].isFlagged = 0;
-      let elemID = xPos + " " + yPos;
-      document.getElementById(elemID).className = "square";
-      numSquaresFlaggedByUser--;
-      if (arr[xPos][yPos].isBomb == 1) {
-        numSquaresCorrectlyFlaggedByUser--;
-      }
-    } else if (
-      arr[xPos][yPos].isFlagged == 0 &&
-      arr[xPos][yPos].isClicked == 0
-    ) {
-      arr[xPos][yPos].isFlagged = 1;
-      let elemID = xPos + " " + yPos;
-      document.getElementById(elemID).className = "flagged-square";
-
-      numSquaresFlaggedByUser++;
-      if (arr[xPos][yPos].isBomb == 1) {
-        numSquaresCorrectlyFlaggedByUser++;
-      }
-      if (
-        numSquaresCorrectlyFlaggedByUser == userNumOfMines &&
-        numSquaresFlaggedByUser == userNumOfMines
-      ) {
-        endScreen("win");   //end screen
-      }
-    }
-    return;
-  }
-});
-
 //valides if a given coordinate is valid on the 2D array
 function isValidCoordinate(x, y) {
   if (x < gridSize && x >= 0 && y < gridSize && y >= 0) {
@@ -362,3 +344,4 @@ function endScreen(condition) {
     gameEnded = 1;
   }
 }
+

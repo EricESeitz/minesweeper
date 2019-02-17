@@ -8,6 +8,13 @@
     <h1>Minesweeper</h1>
     <h2></h2>
     <button id="resetButton" onclick="location.reload();" type="button">Reset</button> 
+    <div id="setup">
+        <form>
+            Board Length: <input id="boardLength" type="text" name="boardSize" value="10"><br>
+            Mine Amount: <input id="mineAmount" type="text" name="mineAmount" value="10"><br>
+            <button type="button" onclick="startGame()">Create Board</button>
+        </form>  
+    </div>
     <div id="squareContainer"></div>
     <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"
