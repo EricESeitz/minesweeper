@@ -77,10 +77,6 @@ body{
 }
 
 
-.invalid{
-    border: solid red 1px;
-}
-
 
 /* Setup Process */
 #setup{
@@ -88,6 +84,7 @@ body{
 }
 
 #setup input{
+    font-size: 15px;
     text-align: center;
     width: 50px;
     margin: 10px;
@@ -96,5 +93,10 @@ body{
 
 #setup button{
     padding: 10px;
+}
+
+.invalid{
+    color: #d94361;
+    border: solid #d94361 3px;
 }
 
