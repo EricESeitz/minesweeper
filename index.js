@@ -268,6 +268,9 @@ function userClick(x, y) {
   let elemID = x + " " + y;
   document.getElementById(elemID).className = "empty-square";
   document.getElementById(elemID).innerHTML = arr[x][y].numNeighborMines;
+  if (arr[x][y].numNeighborMines == '0'){
+      document.getElementById(elemID).className+= " zero";
+  }
   return;
 }
 
