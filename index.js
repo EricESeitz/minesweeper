@@ -28,6 +28,7 @@ function startGame(){
         document.getElementById("mineAmount").classList.add("invalid");
     }
     if(!invalidGrid && !invalidMines){
+        document.getElementById("setup").style.display = "none";
     arr = createArray(gridSize, gridSize);
     arrayFiller();
     randomMineAssign();
