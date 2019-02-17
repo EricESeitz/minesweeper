@@ -28,7 +28,8 @@ function startGame(){
         document.getElementById("mineAmount").classList.add("invalid");
     }
     if(!invalidGrid && !invalidMines){
-        document.getElementById("setup").style.display = "none";
+    document.getElementById("setup").style.display = "none"; //Hides Setup Form
+    document.getElementById("resetButton").style.display = "block"; //Shows reset Button
     arr = createArray(gridSize, gridSize);
     arrayFiller();
     randomMineAssign();

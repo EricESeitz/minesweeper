@@ -108,6 +108,7 @@ button{
 
 /* Reset Button */
 #resetButton{
+    display: none;
     margin-top: 20px;
 }
 
