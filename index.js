@@ -182,7 +182,7 @@ $(".square").on("click", function() {
 //on user clicking on a grid square. **Just For testing: should display (x, y) coordinates on grid click, plus number of times a spesific square has been clicked on
 function onClicked(x, y) {
   recHelperFunction(x, y);
-  if ((gridSize * gridSize) - numOfClickedOnSquares == userNumOfMines) 
+  if ((gridSize * gridSize) - numOfClickedOnSquares == userNumOfMines && arr[x][y].isBomb == 0) 
   {
     allNonMinesFound();
     location.reload();
@@ -280,6 +280,7 @@ function failShowMines()
       if(arr[x][y].isBomb == 0 && arr[x][y].isClicked == 0)   //If not a bomb, show it as 'clicked'
       {
         userClick(x, y);
+        arr[x][y].isClicked = 0;  //'unclick', since user didn't actually click, just for show on end game
       }       
     }
   }
