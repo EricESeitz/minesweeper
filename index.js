@@ -20,7 +20,7 @@ function startGame(){
     document.getElementById("boardLength").className = '';
     document.getElementById("mineAmount").className = '';
     let invalidGrid = isNaN(gridSize) || gridSize < 2 || gridSize > 99;
-    let invalidMines = isNaN(userNumOfMines) || userNumOfMines < 2 || userNumOfMines > 99;
+    let invalidMines = isNaN(userNumOfMines) || userNumOfMines < 2 || userNumOfMines > gridSize*gridSize-1;
     if(invalidGrid){
         document.getElementById("boardLength").classList.add("invalid");
     }
