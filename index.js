@@ -1,13 +1,14 @@
 let validGridSize = false;
-let gridSize = Number(prompt("Input a size for the grid"));
+var gameEnded = 0;  //Has the game ended? Prevents user input post-end. 0-no, 1-yes
+let gridSize = Number(prompt("Input a length for the square grid"));
 
 while (validGridSize == false) {
   if (gridSize < 2 || Number.isInteger(gridSize) == false) {
     alert("Invalid input. Enter an integer between 2 and 100");
-    gridSize = Number(prompt("Input a size for the grid"));
+    gridSize = Number(prompt("Input a length for the square grid"));
   } else if (gridSize > 100 || Number.isInteger(gridSize) == false) {
     alert("Invalid input. Enter an integer between 2 and 100");
-    gridSize = Number(prompt("Input a size for the grid"));
+    gridSize = Number(prompt("Input a length for the square grid"));
   } else {
     validGridSize = true;
   }
@@ -21,8 +22,8 @@ while (validMineNumber == false) {
   if (mineNumber < 1 || Number.isInteger(mineNumber) == false) {
     alert(
       "Invalid input. Enter an integer between 1 and " +
-        (gridSize * gridSize - 1) +
-        "."
+      (gridSize * gridSize - 1) +
+      "."
     );
     mineNumber = Number(prompt("Input the number of mines"));
   } else if (
@@ -31,8 +32,8 @@ while (validMineNumber == false) {
   ) {
     alert(
       "Invalid input. Enter an integer between 1 and " +
-        (gridSize * gridSize - 1) +
-        "."
+      (gridSize * gridSize - 1) +
+      "."
     );
     mineNumber = Number(prompt("Input the number of mines"));
   } else {
@@ -43,6 +44,8 @@ while (validMineNumber == false) {
 let userNumOfMines = mineNumber; //number of mines as defined by user
 let numSquaresFlaggedByUser = 0;
 let numSquaresCorrectlyFlaggedByUser = 0;
+//Track the total number of clicked-on squares for possible win state (all non-mine squares click, non flagged)
+let numOfClickedOnSquares = 0;
 
 //Creates n-dimensional array. Source below
 //https://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript/966938#966938
@@ -169,7 +172,7 @@ function drawSquares(square) {
   }
 }
 
-$(".square").on("click", function() {
+$(".square").on("click", function () {
   const elementClicked = $(this);
   //$(this).addClass("empty-square");
   const xPos = elementClicked.attr("data-x-coordinate");
@@ -179,8 +182,17 @@ $(".square").on("click", function() {
 
 //on user clicking on a grid square. **Just For testing: should display (x, y) coordinates on grid click, plus number of times a spesific square has been clicked on
 function onClicked(x, y) {
-  //alert('Coordinates: (' + x + ', ' + y + ')' + "\nIs Bomb? (0/No, 1/Yes): " + arr[x][y].isBomb + "\nNum Neighboring Mines: " + arr[x][y].numNeighborMines);
-  recHelperFunction(x, y);
+  if (gameEnded == 0) {
+    recHelperFunction(x, y);
+    //If the total number of squares minus the number of clicked squares equals the number of bombs, only bombs must be left and should auto-win
+    //Also check for if coordinate (x,y) is a bomb, caused issues of both fail and win messages popping up
+    if ((gridSize * gridSize) - numOfClickedOnSquares == userNumOfMines && arr[x][y].isBomb == 0) {
+      allNonMinesFound();
+      return;
+    }
+  }else{
+    return;
+  }
 }
 
 //Helper function for the recursive, checks if a given square by coordinate (x, y) is 'valid' and can be used
@@ -200,8 +212,12 @@ function recHelperFunction(x, y) {
       return;
     }
   } else if (arr[x][y].isBomb == 1 && arr[x][y].isFlagged == 0) {
-    alert("game over");
-    location.reload();
+    failShowMines();
+    for (let x = 0; x < 10; x++) {
+      x++;
+    }
+    endScreen("lose");   //end screen
+    return;
   } else {
     return;
   } //end of bomb or coordinate statement
@@ -248,19 +264,39 @@ function recShowNonMineSquare(x, y) {
 //Changes a square's 'state' to 'clicked', change color, shows number
 function userClick(x, y) {
   arr[x][y].isClicked = 1;
+  numOfClickedOnSquares = numOfClickedOnSquares + 1;
   let elemID = x + " " + y;
   document.getElementById(elemID).className = "empty-square";
   document.getElementById(elemID).innerHTML = arr[x][y].numNeighborMines;
   return;
 }
 
+//fail-state, displays all mines in red
+function failShowMines() {
+  for (let x = 0; x < gridSize; x++) {
+    for (let y = 0; y < gridSize; y++) {
+      if (arr[x][y].isBomb == 1)   //If it's a bomb, show it as 'exploded'
+      {
+        let elemID = x + " " + y;
+        document.getElementById(elemID).className = "exploded-square";
+      }
+
+      if (arr[x][y].isBomb == 0 && arr[x][y].isClicked == 0)   //If not a bomb, show it as 'clicked'
+      {
+        userClick(x, y);
+        arr[x][y].isClicked = 0;  //'unclick', since user didn't actually click, just for show on end game
+      }
+    }
+  }
+}
+
 //Changes a square's 'state' to 'right-clicked', change color
-$(".square").mousedown(function(e) {
+$(".square").mousedown(function (e) {
   const elementClicked = $(this);
   const xPos = elementClicked.attr("data-x-coordinate");
   const yPos = elementClicked.attr("data-y-coordinate");
 
-  if (e.which == 3) {
+  if (e.which == 3 && gameEnded == 0) {
     // if right-click
     if (arr[xPos][yPos].isFlagged == 1) {
       arr[xPos][yPos].isFlagged = 0;
@@ -286,8 +322,7 @@ $(".square").mousedown(function(e) {
         numSquaresCorrectlyFlaggedByUser == userNumOfMines &&
         numSquaresFlaggedByUser == userNumOfMines
       ) {
-        alert("You win!");
-        location.reload();
+        endScreen("win");   //end screen
       }
     }
     return;
@@ -300,4 +335,30 @@ function isValidCoordinate(x, y) {
     return true;
   }
   return false;
+}
+
+//Function to show mines in green (flagged) if all non-mine squares are clicked
+function allNonMinesFound() {
+  for (let x = 0; x < gridSize; x++) {
+    for (let y = 0; y < gridSize; y++) {
+      if (arr[x][y].isBomb == 1)   //if bomb, show it as 'flagged'
+      {
+        let elemID = x + " " + y;
+        document.getElementById(elemID).className = "flagged-square";
+      }
+    }
+  }
+  endScreen("win");   //end screen
+}
+
+function endScreen(condition) {
+  if (condition == "win") {
+    var myHeading = document.querySelector('h2');
+    myHeading.textContent = 'You Won!';
+    gameEnded = 1;
+  } else if (condition == "lose") {
+    var myHeading = document.querySelector('h2');
+    myHeading.textContent = 'Game Over. Try again?';
+    gameEnded = 1;
+  }
 }
