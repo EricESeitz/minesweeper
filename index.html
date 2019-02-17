@@ -6,9 +6,8 @@
     <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
   </head>
   <body oncontextmenu="return false;">
-    <h1>Minesweeper</h1>
-    <h2></h2>
-    <button id="resetButton" onclick="location.reload();" type="button">Reset</button> 
+    <h1 class="centeredText">Minesweeper</h1>
+    <h2 class="centeredText"></h2>
     <div id="setup">
         <form>
             Board Length (2 - 99):<br>
@@ -25,5 +24,8 @@
       crossorigin="anonymous"
     ></script>
     <script src="index.js"></script>
+    <div id="resetButton" class="centeredText">
+      <button id="resetButton" onclick="location.reload();" type="button">Reset</button> 
+    </div>
   </body>
 </html>

@@ -12,6 +12,10 @@ body{
     font-family: 'Quicksand', sans-serif;
 }
 
+.centeredText{
+    text-align: center;
+}
+
 
 #squareContainer{
     text-align: center;
@@ -91,12 +95,26 @@ body{
     padding: 10px;
 }
 
-#setup button{
+button{
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15px;
     padding: 10px;
 }
 
 .invalid{
     color: #d94361;
     border: solid #d94361 3px;
+}
+
+/* Reset Button */
+#resetButton{
+    margin-top: 20px;
+}
+
+#resetButton button{
+    color: black;
+    background-color: #FCD47E;
+    border-radius: 10px;
+    border: 1px solid #e6c172;
 }
 
