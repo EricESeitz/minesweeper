@@ -1,11 +1,37 @@
 .square {
   background-color: white;
+  color: white;
   height: 30px;
   width: 30px;
   border-style: solid;
   border-color: black;
   display: inline-block;
   box-sizing: border-box;
+  vertical-align: top;
+}
+
+.empty-square {
+  color: black;
+  background-color: gray;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: black;
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+
+.flagged-square {
+  color: black;
+  background-color: green;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: black;
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: top;
 }
 
 .row {
