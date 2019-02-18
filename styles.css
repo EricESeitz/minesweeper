@@ -1,46 +1,69 @@
+/*
+font-family: 'Quicksand', sans-serif;
+
+
+*/
+
+
+/* Document CSS */
+
+body{
+    background-color: #e66565;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.centeredText{
+    text-align: center;
+}
+
+
+#squareContainer{
+    text-align: center;
+    font-size: 20px
+}
+
+/* Square States */
+
 .square {
-  background-color: white;
-  color: white;
+  background-color: #FCD47E;
   height: 30px;
   width: 30px;
-  border-style: solid;
-  border-color: black;
   display: inline-block;
+  border: solid 1px #e6c172 ;
   box-sizing: border-box;
   vertical-align: top;
 }
 
 .empty-square {
-  color: black;
-  background-color: gray;
+  background-color: #FC9765;
   height: 30px;
   width: 30px;
-  border-style: solid;
-  border-color: black;
+  border: solid 1px #e6895b ;
   display: inline-block;
   box-sizing: border-box;
   vertical-align: top;
+      padding-top: 2px;
 }
 
 .flagged-square {
-  color: black;
-  background-color: green;
+  background-image: url(Assets/flag.png);
+  background-position: center;
+  background-size: cover;
+  background-color: #9CB88C;
   height: 30px;
   width: 30px;
-  border-style: solid;
-  border-color: black;
+  border: solid 1px #8ea77f ;
   display: inline-block;
   box-sizing: border-box;
   vertical-align: top;
 }
 
 .exploded-square {
-  color: black;
-  background-color: red;
+  background-image: url(Assets/mine.png);
+  background-color: #D94361;
   height: 30px;
   width: 30px;
-  border-style: solid;
-  border-color: black;
+  border: solid 1px #c53c57;
   display: inline-block;
   box-sizing: border-box;
   vertical-align: top;
@@ -49,3 +72,50 @@
 .row {
   height: 30px;
 }
+
+
+/* Font Colors */
+
+.zero {
+    color: #FC9765;
+}
+
+
+
+/* Setup Process */
+#setup{
+    text-align: center;
+}
+
+#setup input{
+    font-size: 15px;
+    text-align: center;
+    width: 50px;
+    margin: 10px;
+    padding: 10px;
+}
+
+button{
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15px;
+    padding: 10px;
+}
+
+.invalid{
+    color: #d94361;
+    border: solid #d94361 3px;
+}
+
+/* Reset Button */
+#resetButton{
+    display: none;
+    margin-top: 20px;
+}
+
+#resetButton button{
+    color: black;
+    background-color: #FCD47E;
+    border-radius: 10px;
+    border: 1px solid #e6c172;
+}
+

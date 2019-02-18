@@ -3,11 +3,20 @@
   <head>
     <title>Minesweeper</title>
     <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
   </head>
   <body oncontextmenu="return false;">
-    <h1>Minesweeper</h1>
-    <h2></h2>
-    <button id="resetButton" onclick="location.reload();" type="button">Reset</button> 
+    <h1 class="centeredText">Minesweeper</h1>
+    <h2 class="centeredText"></h2>
+    <div id="setup">
+        <form>
+            Board Length (2 - 99):<br>
+            <input id="boardLength" type="text" name="boardSize" value="10"><br>
+            Mine Amount (minimum of 1, at most 1 less than total squares):<br>
+            <input id="mineAmount" type="text" name="mineAmount" value="20"><br>
+            <button type="button" onclick="startGame()">Create Board</button>
+        </form>  
+    </div>
     <div id="squareContainer"></div>
     <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -15,5 +24,8 @@
       crossorigin="anonymous"
     ></script>
     <script src="index.js"></script>
+    <div id="resetButton" class="centeredText">
+      <button onclick="location.reload();" type="button">Reset</button> 
+    </div>
   </body>
 </html>
