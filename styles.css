@@ -1,58 +1,54 @@
 /*
 font-family: 'Quicksand', sans-serif;
-
-
 */
-
 
 /* Document CSS */
 
-body{
-    background-color: #e66565;
-    font-family: 'Quicksand', sans-serif;
+body {
+  background-color: #e66565;
+  font-family: "Quicksand", sans-serif;
 }
 
-.centeredText{
-    text-align: center;
+.centeredText {
+  text-align: center;
 }
 
-
-#squareContainer{
-    text-align: center;
-    font-size: 20px
+#squareContainer {
+  text-align: center;
+  font-size: 20px;
 }
 
 /* Square States */
 
 .square {
-  background-color: #FCD47E;
+  background-color: #fcd47e;
   height: 30px;
   width: 30px;
   display: inline-block;
-  border: solid 1px #e6c172 ;
+  border: solid 1px #e6c172;
   box-sizing: border-box;
   vertical-align: top;
 }
 
 .empty-square {
-  background-color: #FC9765;
+  background-color: #fc9765;
   height: 30px;
   width: 30px;
-  border: solid 1px #e6895b ;
+  border: solid 1px #e6895b;
   display: inline-block;
   box-sizing: border-box;
   vertical-align: top;
-      padding-top: 2px;
+  padding-top: 2px;
 }
 
 .flagged-square {
   background-image: url(Assets/flag.png);
   background-position: center;
   background-size: cover;
-  background-color: #9CB88C;
+  background-color: #9cb88c;
   height: 30px;
   width: 30px;
-  border: solid 1px #8ea77f ;
+  border: solid 1px #8ea77f;
   display: inline-block;
   box-sizing: border-box;
   vertical-align: top;
@@ -60,7 +56,7 @@ body{
 
 .exploded-square {
   background-image: url(Assets/mine.png);
-  background-color: #D94361;
+  background-color: #d94361;
   height: 30px;
   width: 30px;
   border: solid 1px #c53c57;
@@ -73,49 +69,45 @@ body{
   height: 30px;
 }
 
-
 /* Font Colors */
 
 .zero {
-    color: #FC9765;
+  color: #fc9765;
 }
-
-
 
 /* Setup Process */
-#setup{
-    text-align: center;
+#setup {
+  text-align: center;
 }
 
-#setup input{
-    font-size: 15px;
-    text-align: center;
-    width: 50px;
-    margin: 10px;
-    padding: 10px;
+#setup input {
+  font-size: 15px;
+  text-align: center;
+  width: 50px;
+  margin: 10px;
+  padding: 10px;
 }
 
-button{
-    font-family: 'Quicksand', sans-serif;
-    font-size: 15px;
-    padding: 10px;
+button {
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  padding: 10px;
 }
 
-.invalid{
-    color: #d94361;
-    border: solid #d94361 3px;
+.invalid {
+  color: #d94361;
+  border: solid #d94361 3px;
 }
 
 /* Reset Button */
-#resetButton{
-    display: none;
-    margin-top: 20px;
+#resetButton {
+  display: none;
+  margin-top: 20px;
 }
 
-#resetButton button{
-    color: black;
-    background-color: #FCD47E;
-    border-radius: 10px;
-    border: 1px solid #e6c172;
+#resetButton button {
+  color: black;
+  background-color: #fcd47e;
+  border-radius: 10px;
+  border: 1px solid #e6c172;
 }
-
